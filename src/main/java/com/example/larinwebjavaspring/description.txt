@@ -1,0 +1,112 @@
+My database schema has 15 classes:
+
+Registration
+Vehicle
+VehicleType
+Address
+DrivingLicense
+VehicleModel
+VehicleBrand
+Street
+StreetType
+Settlement
+SettlementType
+VehicleOwner
+Country
+BodyType
+Color
+
+Here is what each class has:
+
+Registration
+registrationId (PK)
+number
+date
+vehicleId (FK1 from Vehicle PK)
+ownerId (FK2 from Owner PK)
+
+Vehicle
+vehicleId (PK)
+yearOfManufacture
+engineNumber
+vehicleTypeId (FK1 from VehicleType PK)
+modelId (FK2 from Model PK)
+bodyTypeId (FK3 from BodyType PK)
+colorId (FK4 from VehicleColor PK)
+
+VehicleType
+vehicleTypeId (PK)
+vehicleName
+
+Address
+addressId (PK)
+houseNumber
+apartmentNumber
+postalIndex
+vehicleOwnerId (FK1 from VehicleOwner PK)
+settlementId (FK2 from Settlement PK)
+streetId (FK3 from Street PK)
+
+DrivingLicense
+drivingLicenseId (PK)
+series
+number
+issuedBy
+issueDate
+vehicleOwnerId (FK1 from VehicleOwner PK)
+
+VehicleModel
+vehicleModelId (PK)
+vehicleName
+vehicleBrandId (FK from VehicleBrand PK)
+
+VehicleBrand
+vehicleBrandId (PK)
+brandName
+shortBrandName
+countryId (FK2 (FK1?) from Country PK)
+
+Street
+streetId (PK)
+streetName
+streetTypeId (FK1 from StreetType PK)
+
+StreetType
+streetTypeId (PK)
+streetTypeName
+
+Settlement
+settlementId (PK)
+settlementName
+settlementTypeId (FK1 from SettlementType PK)
+
+SettlementType
+settlementTypeId (PK)
+settlementTypeName
+
+VehicleOwner
+vehicleOwnerId (PK)
+surname
+name
+patronym
+birthDate
+passportSeries
+passportNumber
+passportIssuedBy
+passportIssueDate
+
+Country
+countryId (PK)
+countryName
+countryAbbreviation
+
+BodyType
+bodyTypeId (PK)
+bodyTypeName
+
+Color
+colorId (PK)
+colorName
+
+We will use Spring JPA
+
