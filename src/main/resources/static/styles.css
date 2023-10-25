@@ -1,0 +1,123 @@
+* {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    background-color: rgb(92, 49, 187);
+    color: rgb(255, 255, 255);
+    overflow-x: hidden;
+}
+
+#introduction {
+    text-align: center;
+    animation-duration: 3s;
+    animation-name: slidein;
+    position: inherit;
+}
+
+section {
+    border: 6px solid rgb(255, 255, 255);
+    border-radius: 10px;
+    margin: 8px;
+    padding: 10px;
+}
+
+nav {
+    border: 6px solid rgb(255, 255, 255);
+    border-radius: 10px;
+    padding: 10px;
+    align-items: center;
+    justify-content: center;
+}
+
+ul {
+    list-style: none;
+    padding-left: 0%;
+}
+
+li, p, a {
+    font-size: larger;
+    text-decoration: none;
+}
+
+li:hover {
+    background-color: aquamarine;
+}
+
+li {
+    border: 3px solid blanchedalmond;
+    text-align: center;
+    padding: 3px;
+    border-radius: 7px;
+}
+
+a {
+    color: #87ff87;
+    padding: 2px;
+    outline: 0;
+}
+
+a:hover {
+    color: white;
+}
+
+input {
+    box-sizing: border-box;
+    width: 100%;
+}
+
+@keyframes slidein {
+    from {
+        margin-left: 150%;
+        width: 100%;
+    }
+    to {
+        margin-left: 0%;
+        width: 100%;
+    }
+}
+
+.report {
+    border: 6px solid rgb(255, 216, 216);
+    border-radius: 10px;
+    background-color: #140f62;
+    padding: 10px;
+    margin: 10px;
+}
+
+footer {
+    border: 6px solid navajowhite;
+    border-radius: 10px;
+    padding: 10px;
+    text-align: center;
+}
+
+#car {
+    font-size: 34px;
+    text-align: center;
+    animation: carMoving 6s infinite;
+    text-align: center;
+    margin-top: -27px;
+}
+
+/* Moving car animation */
+@keyframes carMoving {
+    0% {
+      transform: translateX(45%);
+    }
+    40% {
+        transform: translateX(-45%);
+    }
+    45% {
+        transform: translateX(-45%) rotateY(180deg);
+    }
+    55% {
+        transform: translateX(-45%) rotateY(180deg);;
+    }
+    90% {
+        transform: translateX(45%) rotateY(180deg);;
+    }
+    100% {
+      transform: translateX(45%);
+    }
+}
