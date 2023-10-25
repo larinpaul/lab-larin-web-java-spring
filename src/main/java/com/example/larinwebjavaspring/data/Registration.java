@@ -13,7 +13,7 @@ public class Registration {
     private Long registrationId;
 
     @NotBlank(message = "Number is mandatory")
-    private String number;
+    private Integer number;
 
     private LocalDate date;
 
@@ -27,7 +27,7 @@ public class Registration {
 
     // perhaps, re-generate standard constructors / setters / getters / toString
 
-    public Registration(Long registrationId, String number, LocalDate date, Vehicle vehicle, VehicleOwner owner) {
+    public Registration(Long registrationId, Integer number, LocalDate date, Vehicle vehicle, VehicleOwner owner) {
         this.registrationId = registrationId;
         this.number = number;
         this.date = date;
@@ -43,7 +43,7 @@ public class Registration {
         this.registrationId = registrationId;
     }
 
-    public String getNumber() {
+    public Integer getNumber() {
         return number;
     }
 
