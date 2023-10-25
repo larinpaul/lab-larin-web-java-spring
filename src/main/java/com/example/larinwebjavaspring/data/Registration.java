@@ -1,6 +1,7 @@
 package com.example.larinwebjavaspring.data;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 
 import java.time.LocalDate;
 
@@ -47,7 +48,7 @@ public class Registration {
         return number;
     }
 
-    public void setNumber(String number) {
+    public void setNumber(Integer number) {
         this.number = number;
     }
 

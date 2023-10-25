@@ -1,6 +1,7 @@
 package com.example.larinwebjavaspring.data;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "country")
