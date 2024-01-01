@@ -110,3 +110,20 @@ colorName
 
 We will use Spring JPA
 
+////
+
+The distributed data processing system must support the execution of the following functions:
+
+1. One user performs the addition of booking data for a specific guest for a specific room, while another user performs reading of booking information for this room.
+2. One user performs modification of data about the type of a specific room, while another user performs reading of data about this room.
+3. Multiple users simultaneously modify the price of a specific room per day.
+
+Based on the results of working with the database in the software environment, it is necessary to implement the formation of the following output (for example, an HTML form):
+
+* Report on all booked rooms in the hotel (booking number, room numbers, number of rooms, room type, guest's surname, name and patronymic, start and end dates of the booking, hotel name, agency name, price per day)
+* Report on all booked rooms for a specific guest for a specified period
+* Report on all booked rooms in a specific hotel
+* Report on booking orders in a specific hotel through a specific agency.
+
+////
+
