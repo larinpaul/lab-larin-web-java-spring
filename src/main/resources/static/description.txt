@@ -114,16 +114,49 @@ We will use Spring JPA
 
 The distributed data processing system must support the execution of the following functions:
 
-1. One user performs the addition of booking data for a specific guest for a specific room, while another user performs reading of booking information for this room.
-2. One user performs modification of data about the type of a specific room, while another user performs reading of data about this room.
-3. Multiple users simultaneously modify the price of a specific room per day.
+1. One user performs the addition of data about the registration of a specific vehicle by a specific car owner, while another user performs the reading of data about this registration.
+2. One user performs the modification of data about the color of a vehicle, while another user performs the reading of data about this vehicle.
+3. Multiple users simultaneously modify the address of a specific car owner.
 
-Based on the results of working with the database in the software environment, it is necessary to implement the formation of the following output (for example, an HTML form):
+As a result of working with the database in the software tool, it is necessary to implement the formation of the following output documents:
 
-* Report on all booked rooms in the hotel (booking number, room numbers, number of rooms, room type, guest's surname, name and patronymic, start and end dates of the booking, hotel name, agency name, price per day)
-* Report on all booked rooms for a specific guest for a specified period
-* Report on all booked rooms in a specific hotel
-* Report on booking orders in a specific hotel through a specific agency.
+* Report on the registration of all vehicles (name of the brand, model, color of the car, type of body, country, last name, first name, patronymic of the car owner, series and number of the document-right, address of the car owner, registration date);
+* Report on the registration of all vehicles registered by a specific car owner;
+* Report on all registrations of a specific vehicle type;
+* Report on the registration of vehicles of a specific brand and country.
+
+Note: The above text assumes that the system
+is designed to manage vehicle registration data
+and that users have different roles and permissions,
+such as adding, modifying, and reading data.
+The output documents are reports generated
+based on the data stored in the database.
+The Java Thymeleaf developer would be responsible
+for implementing the user interface and server-side logic
+to support these functions and generate the reports using Thymeleaf templates.
 
 ////
+
+My current index.html page is a good start, but I will need additional HTML pages to provide a complete user interface for your automobile registration system. Here are some suggestions for additional pages:
+Add Vehicle Page (add-vehicle.html):
+This page should allow users to add a new vehicle to the system. It should include fields for the vehicle's make, model, year, color, body type, engine number, and vehicle type. You may also want to include a dropdown for the vehicle owner, which can be populated from the VehicleOwner entity.
+Edit Vehicle Page (edit-vehicle.html):
+This page should allow users to edit an existing vehicle's information. It should include all the same fields as the Add Vehicle page, but pre-populated with the existing vehicle's information. You should also include a way to select the vehicle to edit, such as a dropdown or search bar.
+View Vehicles Page (view-vehicles.html):
+This page should allow users to view all the vehicles in the system. It should include a table or list of vehicles, with columns for each field in the Vehicle entity. You may also want to include pagination or filtering options to make it easier to navigate large lists of vehicles.
+Add Owner Page (add-owner.html):
+This page should allow users to add a new vehicle owner to the system. It should include fields for the owner's name, surname, patronym, birthdate, passport series, passport number, passport issued by, and passport issue date.
+Edit Owner Page (edit-owner.html):
+This page should allow users to edit an existing owner's information. It should include all the same fields as the Add Owner page, but pre-populated with the existing owner's information. You should also include a way to select the owner to edit, such as a dropdown or search bar.
+View Owners Page (view-owners.html):
+This page should allow users to view all the owners in the system. It should include a table or list of owners, with columns for each field in the VehicleOwner entity. You may also want to include pagination or filtering options to make it easier to navigate large lists of owners.
+Add Registration Page (add-registration.html):
+This page should allow users to add a new registration to the system. It should include fields for the registration number, date, and vehicle and owner IDs.
+Edit Registration Page (edit-registration.html):
+This page should allow users to edit an existing registration's information. It should include all the same fields as the Add Registration page, but pre-populated with the existing registration's information. You should also include a way to select the registration to edit, such as a dropdown or search bar.
+View Registrations Page (view-registrations.html):
+This page should allow users to view all the registrations in the system. It should include a table or list of registrations, with columns for each field in the Registration entity. You may also want to include pagination or filtering options to make it easier to navigate large lists of registrations.
+Reports Page (reports.html):
+This page should allow users to generate reports based on the data in the system. You may want to include options for generating reports by vehicle make, model, year, or owner name. You could also consider including options for exporting reports to CSV or PDF format.
+These are just some suggestions for additional pages you could include in your automobile registration system. Depending on your specific requirements, you may need to add or remove pages as necessary.
 

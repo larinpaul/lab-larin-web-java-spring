@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Reports</title>
+    <link rel="icon" type="image/x-icon" href="favicon.icon">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h2>Generate Reports</h2>
+    <!-- Options for generating reports -->
+    <form action="/generateReport" method="post">
+        <fieldset>
+            <legend>Select Report Criteria</legend>
+            <!-- Report on the registration of all vehicles -->
+            <div>
+                <input type="radio" id="allVehicles" name="reportType" value="allVehicles">
+                <label for="allVehicles">All Vehicle Registrations</label>
+            </div>
+
+            <!-- Report on vehicles registered by a specific car owner -->
+            <div>
+                <input type="radio" id="ownerVehicles" name="reportType" value="ownerVehicles">
+                <label for="ownerVehicles">Vehicles by Specific Owner</label>
+                <select name="ownerId">
+                    <!-- Dynamically populate with owner IDs -->
+                </select>
+            </div>
+
+            <!-- Report on all registrations of a specific vehicle type -->
+            <div>
+                <input type="radio" id="vehicleType" name="reportType" value="vehicleType">
+                <label for="vehicleType">Registrations of a Specific Vehicle Type</label>
+                <select name="vehicleTypeId">
+                    <!-- Dynamically populate with vehicle type IDs -->
+                </select>
+            </div>
+
+            <!-- Report on the registration of vehicles of a specific brand and country -->
+            <div>
+                <input type="radio" id="brandCountry" name="reportType" value="brandCountry">
+                <label for="brandCountry">Vehicles by Brand and Country</label>
+                <select name="brandId">
+                    <!-- Dynamically populate with brand IDs -->
+                </select>
+                <select name="countryId">
+                    <!-- Dynamically populate with country IDs -->
+                </select>
+            </div>
+
+            <button type="submit">Generate Report</button>
+        </fieldset>
+    </form>
+
+    <h3>Report Results</h3>
+    <div id="reportResults">
+        <!-- Report results will be displayed here -->
+    </div>
+</body>
+</html>

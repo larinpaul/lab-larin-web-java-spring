@@ -1,0 +1,991 @@
+//// 2024/01/01 19:56
+
+
+Automobile Registration project with Java, Spring, and frontend.
+
+Hello, please take look at my project and check if everything is correct. I want to make a project with Spring, JPA (probably Hibernate), and
+
+My database schema has 15 classes:
+
+Registration
+Vehicle
+VehicleType
+Address
+DrivingLicense
+VehicleModel
+VehicleBrand
+Street
+StreetType
+Settlement
+SettlementType
+VehicleOwner
+Country
+BodyType
+Color
+
+Here is what each class has:
+
+Registration
+registrationId (PK)
+number
+date
+vehicleId (FK1 from Vehicle PK)
+ownerId (FK2 from Owner PK)
+
+Vehicle
+vehicleId (PK)
+yearOfManufacture
+engineNumber
+vehicleTypeId (FK1 from VehicleType PK)
+modelId (FK2 from Model PK)
+bodyTypeId (FK3 from BodyType PK)
+colorId (FK4 from VehicleColor PK)
+
+VehicleType
+vehicleTypeId (PK)
+vehicleName
+
+Address
+addressId (PK)
+houseNumber
+apartmentNumber
+postalIndex
+vehicleOwnerId (FK1 from VehicleOwner PK)
+settlementId (FK2 from Settlement PK)
+streetId (FK3 from Street PK)
+
+DrivingLicense
+drivingLicenseId (PK)
+series
+number
+issuedBy
+issueDate
+vehicleOwnerId (FK1 from VehicleOwner PK)
+
+VehicleModel
+vehicleModelId (PK)
+vehicleName
+vehicleBrandId (FK from VehicleBrand PK)
+
+VehicleBrand
+vehicleBrandId (PK)
+brandName
+shortBrandName
+countryId (FK2 (FK1?) from Country PK)
+
+Street
+streetId (PK)
+streetName
+streetTypeId (FK1 from StreetType PK)
+
+StreetType
+streetTypeId (PK)
+streetTypeName
+
+Settlement
+settlementId (PK)
+settlementName
+settlementTypeId (FK1 from SettlementType PK)
+
+SettlementType
+settlementTypeId (PK)
+settlementTypeName
+
+VehicleOwner
+vehicleOwnerId (PK)
+surname
+name
+patronym
+birthDate
+passportSeries
+passportNumber
+passportIssuedBy
+passportIssueDate
+
+Country
+countryId (PK)
+countryName
+countryAbbreviation
+
+BodyType
+bodyTypeId (PK)
+bodyTypeName
+
+Color
+colorId (PK)
+colorName
+
+We will use Spring JPA
+
+//// My Gradle:
+
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.1.5'
+	id 'io.spring.dependency-management' version '1.1.3'
+	id 'org.graalvm.buildtools.native' version '0.9.27'
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	sourceCompatibility = '17'
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
+
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa:3.1.4'
+	implementation 'org.springframework.boot:spring-boot-starter-validation:3.1.2'
+
+	developmentOnly 'org.springframework.boot:spring-boot-docker-compose'
+	runtimeOnly 'com.h2database:h2'
+	runtimeOnly 'org.postgresql:postgresql'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.security:spring-security-test'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
+
+My index.html:
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🚗😎Автомобильная Автоматизация Ларин П.Е.😎🚗</title>
+    <link rel="icon" type="image/x-icon" href="favicon.icon">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header id="introduction">
+        <h2>
+            🚓Доброго времени суток!🚓
+        </h2>
+        <h2>
+            Добро пожаловать на самый лучший сервис регистрации ТС, без СМС!
+        </h2>
+        <h3>
+            Выполнил Ларин Павел Евгеньевич, З-22ПИнж(м)РИтС
+        </h3>
+    </header>
+    <nav id="navbar">
+        <h3>
+            Навигация по функциональным подразделам сайта:
+        </h3>
+        <ul>
+            <li><a href="#1add">Раздел добавления данных</a></li>
+            <li><a href="#2edit">Раздел изменения данных</a></li>
+            <li><a href="#3read">Раздел чтения данных</a></li>
+            <li><a href="#4reports">Раздел формирования отчетов</a></li>
+        </ul>
+        <!-- <ul>
+            <li><a href="1add.html">Раздел добавления данных</a></li>
+            <li><a href="2edit.html">Раздел изменения данных</a></li>
+            <li><a href="3read.html">Раздел чтения данных</a></li>
+            <li><a href="4report.html">Раздел формирования отчета</a></li>
+        </ul> -->
+    </nav>
+    <main>
+        <p>
+            На нашем сайте можно добавлять, изменять и читать данные о регистрации транспортных средств и их владельцах, а также автоматически выводить отчеты.
+        </p>
+    </main>
+    <section id="1add">
+        <h3>Раздел добавления данных</h3>
+        <form action="" method="post">
+            <fieldset>
+                <legend>Данные владельца</legend>
+                <p>
+                    <label for="owner-code">Код автовладельца:</label>
+                    <input type="text" name="owner-code" id="owner-code">
+                </p>
+                <p>
+                    <label for="surname">Фамилия:</label>
+                    <input type="text" name="surname" id="surname">
+                </p>
+                <p>
+                    <label for="name">Имя:</label>
+                    <input type="text" name="name" id="name">
+                </p>
+                <p>
+                    <label for="patronym">Отчество:</label>
+                    <input type="text" name="patronym" id="patronym">
+                </p>
+                <p>
+                    <label for="birth-date">Дата рождения:</label>
+                    <input type="date" name="birth-date" id="birth-date">
+                </p>
+                <p>
+                    <label for="passport-series">Серия паспорта:</label>
+                    <input type="number" name="passport-series" id="passport-series">
+                </p>
+                <p>
+                    <label for="passport-number">Номер паспорта:</label>
+                    <input type="number" name="passport-number" id="passport-number">
+                </p>
+                <p>
+                    <label for="issued-by">Кем выдан:</label>
+                    <input type="text" name="issued-by" id="issued-by">
+                </p>
+                <p>
+                    <label for="issue-date">Дата выдачи:</label>
+                    <input type="date" name="issue-date" id="issue-date">
+                </p>
+            </fieldset>
+            <fieldset>
+                <legend>Данные транспортного средства</legend>
+                <p>
+                    <label for="vehicle-code">Код транспортного средства:</label>
+                    <input type="text" name="vehicle-code" id="vehicle-code">
+                </p>
+                <p>
+                    <label for="year-of-manufacture">Год выпуска:</label>
+                    <input type="number" name="year-of-manufacture" id="year-of-manufacture">
+                </p>
+                <p>
+                    <label for="engine-number">Номер двигателя</label>
+                    <input type="number" name="engine-number" id="engine-number">
+                </p>
+                <p>
+                    <label for="vehicle-type-code">Код типа ТС:</label>
+                    <input type="text" name="vehicle-type-code" id="vehicle-type-code">
+                </p>
+                <p>
+                    <label for="model-code">Код модели:</label>
+                    <input type="text" name="model-code" id="model-code">
+                </p>
+                <p>
+                    <label for="body-type-code">Код типа кузова:</label>
+                    <input type="text" name="body-type-code" id="body-type-code">
+                </p>
+                <p>
+                    <label for="color-code">Код цвета:</label>
+                    <input type="text" name="color-code" id="color-code">
+                </p>
+            </fieldset>
+            <fieldset>
+                <legend>Данные адреса</legend>
+                <p>
+                    <label for="address-code">Код адреса:</label>
+                    <input type="text" name="address-code" id="address-code">
+                </p>
+                <p>
+                    <label for="house-number">Номер дома:</label>
+                    <input type="text" name="house-number" id="house-number">
+                </p>
+                <p>
+                    <label for="apartment-number">Номер квартиры:</label>
+                    <input type="text" name="apartment-number" id="apartment-number">
+                </p>
+                <p>
+                    <label for="zip-code">Почтовый индекс:</label>
+                    <input type="number" name="zip-code" id="zip-code">
+                </p>
+                <p>
+                    <label for="owner-code">Код автовладельца:</label>
+                    <input type="text" name="owner-code" id="owner-code">
+                </p>
+                <p>
+                    <label for="settlement-code">Код населенного пункта:</label>
+                    <input type="text" name="settlement-code" id="settlement-code">
+                </p>
+                <p>
+                    <label for="street-code">Код улицы:</label>
+                    <input type="text" name="street-code" id="street-code">
+                </p>
+            </fieldset>
+        </form>
+    </section>
+    <section  id="2edit">
+        <h3>Раздел изменения данных</h3>
+        <form action="" method="post">
+            <fieldset>
+
+            </fieldset>
+        </form>
+    </section>
+    <section  id="3read">
+        <h3>Раздел чтения данных</h3>
+        <form action="" method="get">
+            <fieldset>
+
+            </fieldset>
+        </form>
+    </section>
+    <section id="4reports">
+        <h3>Раздел вывода отчетов</h3>
+        <div id="report1" class="report">
+            <h4>Вывод отчетов о регистрации всех транспортных средств (наименование марки, модели, цвета автомобиля, тип кузова, страны, фамилия, имя, отчество автовладельца, серия, номер документа-права, адрес автовладельца дата регистрации) </h4>
+            <div>Здесь будет выводиться отчет</div>
+        </div>
+        <div id="report2" class="report">
+            <h4>Вывод отчетов о регистрации всех транспортных средств, совершенных определенным автовладельцем</h4>
+            <div>Здесь будет выводиться отчет</div>
+        </div>
+        <div id="report3" class="report">
+            <h4>Вывод отчетов обо всех регистрациях определенного транспортного средства </h4>
+            <div>Здесь будет выводиться отчет</div>
+        </div>
+        <div id="report4" class="report">
+            <h4>Вывод отчетов регистрации транспортных средств определенной марки  и страны </h4>
+            <div>Здесь будет выводиться отчет</div>
+        </div>
+    </section>
+
+    <footer>
+        <h3>Хотите узнать больше? Подпиcывайтесь на наши соцсети или добавляйтесь в друзья! 👇💌🐦</h3>
+        <ul>
+            <li><a href="https://github.com/larinpaul">GitHub</a></li>
+            <li><a href="https://www.linkedin.com/in/larinpaul">LinkedIn</a></li>
+        </ul>
+        <h3><a href="#navbar">Вернуться в начало сайта</a></h3>
+        <div id="car">🚙</div>
+    </footer>
+</body>
+</html>
+
+
+My Java classes:
+
+package com.example.larinwebjavaspring.data;
+
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "address")
+public class Address {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long addressId;
+
+    private Integer houseNumber;
+
+    private Integer apartmentNumber;
+
+    private Integer postalIndex;
+
+    @ManyToOne
+    @JoinColumn(name = "vehicleOwnerId")
+    private VehicleOwner vehicleOwner;
+
+    @ManyToOne
+    @JoinColumn(name = "settlementId")
+    private Settlement settlement;
+
+    @ManyToOne
+    @JoinColumn(name = "streetId")
+    private Street street;
+
+    // standard constructors / setters / getters / toString
+
+}
+
+package com.example.larinwebjavaspring.data;
+
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+
+@Entity
+@Table(name = "body_type")
+public class BodyType {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long bodyTypeId;
+
+    @NotBlank(message = "Body type name is mandatory")
+    private String bodyTypeName;
+
+    // standard constructors / setters / getters / toString
+
+}
+
+
+package com.example.larinwebjavaspring.data;
+
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+
+@Entity
+@Table(name = "color")
+public class Color {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long colorId;
+
+    @NotBlank(message = "Color name is mandatory")
+    private String colorName;
+
+    // standards constructors / setters / getters / toString
+
+}
+
+package com.example.larinwebjavaspring.data;
+
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+
+@Entity
+@Table(name = "country")
+public class Country {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long countryId;
+
+    @NotBlank(message = "Country name is mandatory")
+    private String countryName;
+
+    private String countryAbbreviation;
+
+    // standard constructors / setters / getters / toString
+
+}
+
+package com.example.larinwebjavaspring.data;
+
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+
+import java.time.LocalDate;
+
+@Entity
+@Table(name = "driving_license")
+public class DrivingLicense {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long drivingLicenseId;
+
+    @NotBlank(message = "Series is mandatory")
+    private String series;
+
+    @NotBlank(message = "Number is mandatory")
+    private Long number;
+
+    @NotBlank(message = "IssuedBy is mandatory")
+    private String issuedBy;
+
+    private LocalDate issueDate;
+
+    @ManyToOne
+    @JoinColumn(name = "vehicleOwnerId")
+    private VehicleOwner vehicleOwner;
+
+    // standard constructors / setters / getters / toString
+
+
+
+}
+
+package com.example.larinwebjavaspring.data;
+
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+
+import java.time.LocalDate;
+
+@Entity
+@Table(name = "registration")
+public class Registration {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long registrationId;
+
+    @NotBlank(message = "Number is mandatory")
+    private Integer number;
+
+    private LocalDate date;
+
+    @ManyToOne
+    @JoinColumn(name = "vehicleId")
+    private Vehicle vehicle;
+
+    @ManyToOne
+    @JoinColumn(name = "ownerId")
+    private VehicleOwner owner;
+
+    // perhaps, re-generate standard constructors / setters / getters / toString
+
+    public Registration(Long registrationId, Integer number, LocalDate date, Vehicle vehicle, VehicleOwner owner) {
+        this.registrationId = registrationId;
+        this.number = number;
+        this.date = date;
+        this.vehicle = vehicle;
+        this.owner = owner;
+    }
+
+    public Long getRegistrationId() {
+        return registrationId;
+    }
+
+    public void setRegistrationId(Long registrationId) {
+        this.registrationId = registrationId;
+    }
+
+    public Integer getNumber() {
+        return number;
+    }
+
+    public void setNumber(Integer number) {
+        this.number = number;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+
+    public Vehicle getVehicle() {
+        return vehicle;
+    }
+
+    public void setVehicle(Vehicle vehicle) {
+        this.vehicle = vehicle;
+    }
+
+    public VehicleOwner getOwner() {
+        return owner;
+    }
+
+    public void setOwner(VehicleOwner owner) {
+        this.owner = owner;
+    }
+
+    @Override
+    public String toString() {
+        return "Registration{" +
+                "registrationId=" + registrationId +
+                ", number='" + number + '\'' +
+                ", date=" + date +
+                ", vehicle=" + vehicle +
+                ", owner=" + owner +
+                '}';
+    }
+
+}
+
+
+package com.example.larinwebjavaspring.data;
+
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+
+@Entity
+@Table(name = "settlement")
+public class Settlement {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long settlementId;
+
+    @NotBlank(message = "Settlement name is mandatory")
+    private String setllementName;
+
+    @ManyToOne
+    @JoinColumn(name = "settlementTypeId")
+    private SettlementType settlementType;
+
+    // standard constructors / setters / getters / toString
+
+}
+
+
+package com.example.larinwebjavaspring.data;
+
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+
+@Entity
+@Table(name = "settlement_type")
+public class SettlementType {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long settlementTypeId;
+
+    @NotBlank(message = "Settlement type name is mandatory")
+    private String settlementTypeName;
+
+    // standard constructors / setters / getters / toString
+
+}
+
+package com.example.larinwebjavaspring.data;
+
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+
+@Entity
+@Table(name = "street")
+public class Street {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long streetId;
+
+    @NotBlank(message = "Street name is mandatory")
+    private String streetName;
+
+    @ManyToOne
+    @JoinColumn(name = "streetTypeId")
+    private StreetType streetType;
+
+    // standard constructors / setters / getters / toString
+
+}
+
+package com.example.larinwebjavaspring.data;
+
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+
+@Entity
+@Table(name = "streety_type")
+public class StreetType {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long streetTypeId;
+
+    @NotBlank(message = "Street type name is mandatory")
+    private String streetTypeName;
+
+    // standard constructors / setters / getters / toString
+
+
+}
+
+package com.example.larinwebjavaspring.data;
+
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+
+@Entity
+@Table(name = "vehicle")
+public class Vehicle {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long vehicleId;
+
+    private Integer yearOfManufacture;
+
+    @NotBlank(message = "Engine number is mandatory")
+    private String engineNumber;
+
+    @ManyToOne
+    @JoinColumn(name = "vehicleTypeId")
+    private VehicleType vehicleType;
+
+    @ManyToOne
+    @JoinColumn(name = "modelId")
+    private VehicleModel vehicleModel;
+
+    @ManyToOne
+    @JoinColumn(name = "colorId")
+    private Color color;
+
+    // perhaps, re-generate standard constructors / setters / getters / toString
+
+    @Override
+    public String toString() {
+        return "Vehicle{" +
+                "vehicleId=" + vehicleId +
+                ", yearOfManufacture=" + yearOfManufacture +
+                ", engineNumber='" + engineNumber + '\'' +
+                ", vehicleType=" + vehicleType +
+                ", vehicleModel=" + vehicleModel +
+                ", color=" + color +
+                '}';
+    }
+
+    public Long getVehicleId() {
+        return vehicleId;
+    }
+
+    public void setVehicleId(Long vehicleId) {
+        this.vehicleId = vehicleId;
+    }
+
+    public Integer getYearOfManufacture() {
+        return yearOfManufacture;
+    }
+
+    public void setYearOfManufacture(Integer yearOfManufacture) {
+        this.yearOfManufacture = yearOfManufacture;
+    }
+
+    public String getEngineNumber() {
+        return engineNumber;
+    }
+
+    public void setEngineNumber(String engineNumber) {
+        this.engineNumber = engineNumber;
+    }
+
+    public VehicleType getVehicleType() {
+        return vehicleType;
+    }
+
+    public void setVehicleType(VehicleType vehicleType) {
+        this.vehicleType = vehicleType;
+    }
+
+    public VehicleModel getVehicleModel() {
+        return vehicleModel;
+    }
+
+    public void setVehicleModel(VehicleModel vehicleModel) {
+        this.vehicleModel = vehicleModel;
+    }
+
+    public Color getColor() {
+        return color;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
+    }
+
+    public Vehicle(Long vehicleId, Integer yearOfManufacture, String engineNumber, VehicleType vehicleType, VehicleModel vehicleModel, Color color) {
+        this.vehicleId = vehicleId;
+        this.yearOfManufacture = yearOfManufacture;
+        this.engineNumber = engineNumber;
+        this.vehicleType = vehicleType;
+        this.vehicleModel = vehicleModel;
+        this.color = color;
+    }
+}
+
+package com.example.larinwebjavaspring.data;
+
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+
+@Entity
+@Table(name = "vehicle_brand")
+public class VehicleBrand {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long vehicleBrandId;
+
+    @NotBlank(message = "Brand name is mandatory")
+    private String brandName;
+
+    private String shortBrandName;
+
+    @ManyToOne
+    @JoinColumn(name = "countryId")
+    private Country country;
+
+    // standard constructors / setters / getters / toString
+
+
+}
+
+package com.example.larinwebjavaspring.data;
+
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+
+@Entity
+@Table(name = "vehicle_model")
+public class VehicleModel {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long vehicleModelId;
+
+    @NotBlank(message = "Vehicle name is mandatory")
+    private String vehicleName;
+
+    @ManyToOne
+    @JoinColumn(name = "vehicleBrandId")
+    private VehicleBrand vehicleBrand;
+
+    // standard constructors / setters / getters / toString
+
+}
+
+package com.example.larinwebjavaspring.data;
+
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+
+import java.time.LocalDate;
+
+@Entity
+@Table(name = "vehicle_owner")
+public class VehicleOwner {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long vehicleOwnerId;
+
+    @NotBlank(message = "Surname is mandatory")
+    private String name;
+
+    private String patronym;
+
+    private LocalDate birthDate;
+
+    @NotBlank(message = "Passport series is mandatory")
+    private String passportSeries;
+
+    @NotBlank(message = "Passport number is mandatory")
+    private String passportNumber;
+
+    private LocalDate passportIssueDate;
+
+    // standard constructors / setters / getters / toString
+
+
+}
+
+package com.example.larinwebjavaspring.data;
+
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+
+@Entity
+@Table(name = "vehicle_type")
+public class VehicleType {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long vehicleTypeId;
+
+    @NotBlank(message = "Vehicle name is mandatory")
+    private String vehicleName;
+
+    // Standard constructors, setters, getters, toString
+
+}
+
+package com.example.larinwebjavaspring;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+@Controller
+public class IndexController {
+
+    @RequestMapping("/")
+    public String index() {
+        return "index";
+    }
+
+}
+
+package com.example.larinwebjavaspring;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class LarinWebJavaSpringApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(LarinWebJavaSpringApplication.class, args);
+	}
+
+}
+
+Is there anything superfluous? Is anything missing? Is anything wrong?
+
+Let's continue expanding the project by writing some basic HTML that we will later convert into Thymeleaf! :)
+
+Please write the list of all the html pages that would need to be created to accomodiate doing the following, since the distributed data processing system must support the execution of the following functions:
+
+1. One user performs the addition of data about the registration of a specific vehicle by a specific car owner, while another user performs the reading of data about this registration.
+2. One user performs the modification of data about the color of a vehicle, while another user performs the reading of data about this vehicle.
+3. Multiple users simultaneously modify the address of a specific car owner.
+
+As a result of working with the database in the software tool, it is necessary to implement the formation of the following output documents:
+
+* Report on the registration of all vehicles (name of the brand, model, color of the car, type of body, country, last name, first name, patronymic of the car owner, series and number of the document-right, address of the car owner, registration date);
+* Report on the registration of all vehicles registered by a specific car owner;
+* Report on all registrations of a specific vehicle type;
+* Report on the registration of vehicles of a specific brand and country.
+
+
+
+
+////
+
+Please write the following HTMLs:
+
+My current `index.html` page is a good start, but I will need additional HTML pages to provide a complete user interface for your automobile registration system. Here are some suggestions for additional pages:
+
+1. Add Vehicle Page (`add-vehicle.html`):
+
+This page should allow users to add a new vehicle to the system. It should include fields for the vehicle's make, model, year, color, body type, engine number, and vehicle type. You may also want to include a dropdown for the vehicle owner, which can be populated from the `VehicleOwner` entity.
+
+2. Edit Vehicle Page (`edit-vehicle.html`):
+
+This page should allow users to edit an existing vehicle's information. It should include all the same fields as the Add Vehicle page, but pre-populated with the existing vehicle's information. You should also include a way to select the vehicle to edit, such as a dropdown or search bar.
+
+3. View Vehicles Page (`view-vehicles.html`):
+
+This page should allow users to view all the vehicles in the system. It should include a table or list of vehicles, with columns for each field in the `Vehicle` entity. You may also want to include pagination or filtering options to make it easier to navigate large lists of vehicles.
+
+4. Add Owner Page (`add-owner.html`):
+
+This page should allow users to add a new vehicle owner to the system. It should include fields for the owner's name, surname, patronym, birthdate, passport series, passport number, passport issued by, and passport issue date.
+
+5. Edit Owner Page (`edit-owner.html`):
+
+This page should allow users to edit an existing owner's information. It should include all the same fields as the Add Owner page, but pre-populated with the existing owner's information. You should also include a way to select the owner to edit, such as a dropdown or search bar.
+
+6. View Owners Page (`view-owners.html`):
+
+This page should allow users to view all the owners in the system. It should include a table or list of owners, with columns for each field in the `VehicleOwner` entity. You may also want to include pagination or filtering options to make it easier to navigate large lists of owners.
+
+7. Add Registration Page (`add-registration.html`):
+
+This page should allow users to add a new registration to the system. It should include fields for the registration number, date, and vehicle and owner IDs.
+
+8. Edit Registration Page (`edit-registration.html`):
+
+This page should allow users to edit an existing registration's information. It should include all the same fields as the Add Registration page, but pre-populated with the existing registration's information. You should also include a way to select the registration to edit, such as a dropdown or search bar.
+
+9. View Registrations Page (`view-registrations.html`):
+
+This page should allow users to view all the registrations in the system. It should include a table or list of registrations, with columns for each field in the `Registration` entity. You may also want to include pagination or filtering options to make it easier to navigate large lists of registrations.
+
+10. Reports Page (`reports.html`):
+
+This page should allow users to generate reports based on the data in the system. You may want to include options for generating reports by vehicle make, model, year, or owner name. You could also consider including options for exporting reports to CSV or PDF format.
+
+These are just some suggestions for additional pages you could include in your automobile registration system. Depending on your specific requirements, you may need to add or remove pages as necessary.
+
+
+Please write the needed HTMLs so that I could use them as my Thymeleaf.
+
+
+
+
+
+
+
+
