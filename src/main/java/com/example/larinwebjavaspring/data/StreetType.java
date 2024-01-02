@@ -14,7 +14,18 @@ public class StreetType {
     @NotBlank(message = "Street type name is mandatory")
     private String streetTypeName;
 
-    // standard constructors / setters / getters / toString
+    public StreetType() {
+    }
 
+    public StreetType(String streetTypeName) {
+        this.streetTypeName = streetTypeName;
+    }
 
+    public String getStreetTypeName() {
+        return streetTypeName;
+    }
+
+    public void setStreetTypeName(String streetTypeName) {
+        this.streetTypeName = streetTypeName;
+    }
 }

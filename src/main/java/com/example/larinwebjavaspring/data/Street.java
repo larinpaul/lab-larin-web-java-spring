@@ -18,6 +18,27 @@ public class Street {
     @JoinColumn(name = "streetTypeId")
     private StreetType streetType;
 
-    // standard constructors / setters / getters / toString
+    public Street() {
+    }
 
+    public Street(String streetName, StreetType streetType) {
+        this.streetName = streetName;
+        this.streetType = streetType;
+    }
+
+    public String getStreetName() {
+        return streetName;
+    }
+
+    public void setStreetName(String streetName) {
+        this.streetName = streetName;
+    }
+
+    public StreetType getStreetType() {
+        return streetType;
+    }
+
+    public void setStreetType(StreetType streetType) {
+        this.streetType = streetType;
+    }
 }

@@ -28,26 +28,12 @@ public class Vehicle {
     @JoinColumn(name = "colorId")
     private Color color;
 
-    // perhaps, re-generate standard constructors / setters / getters / toString
-
-    @Override
-    public String toString() {
-        return "Vehicle{" +
-                "vehicleId=" + vehicleId +
-                ", yearOfManufacture=" + yearOfManufacture +
-                ", engineNumber='" + engineNumber + '\'' +
-                ", vehicleType=" + vehicleType +
-                ", vehicleModel=" + vehicleModel +
-                ", color=" + color +
-                '}';
-    }
-
-    public Long getVehicleId() {
-        return vehicleId;
-    }
-
-    public void setVehicleId(Long vehicleId) {
-        this.vehicleId = vehicleId;
+    public Vehicle(Integer yearOfManufacture, String engineNumber, VehicleType vehicleType, VehicleModel vehicleModel, Color color) {
+        this.yearOfManufacture = yearOfManufacture;
+        this.engineNumber = engineNumber;
+        this.vehicleType = vehicleType;
+        this.vehicleModel = vehicleModel;
+        this.color = color;
     }
 
     public Integer getYearOfManufacture() {
@@ -90,12 +76,4 @@ public class Vehicle {
         this.color = color;
     }
 
-    public Vehicle(Long vehicleId, Integer yearOfManufacture, String engineNumber, VehicleType vehicleType, VehicleModel vehicleModel, Color color) {
-        this.vehicleId = vehicleId;
-        this.yearOfManufacture = yearOfManufacture;
-        this.engineNumber = engineNumber;
-        this.vehicleType = vehicleType;
-        this.vehicleModel = vehicleModel;
-        this.color = color;
-    }
 }

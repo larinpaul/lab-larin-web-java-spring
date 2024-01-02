@@ -26,10 +26,10 @@ public class Registration {
     @JoinColumn(name = "ownerId")
     private VehicleOwner owner;
 
-    // perhaps, re-generate standard constructors / setters / getters / toString
+    public Registration() {
+    }
 
-    public Registration(Long registrationId, Integer number, LocalDate date, Vehicle vehicle, VehicleOwner owner) {
-        this.registrationId = registrationId;
+    public Registration(Integer number, LocalDate date, Vehicle vehicle, VehicleOwner owner) {
         this.number = number;
         this.date = date;
         this.vehicle = vehicle;
@@ -74,17 +74,6 @@ public class Registration {
 
     public void setOwner(VehicleOwner owner) {
         this.owner = owner;
-    }
-
-    @Override
-    public String toString() {
-        return "Registration{" +
-                "registrationId=" + registrationId +
-                ", number='" + number + '\'' +
-                ", date=" + date +
-                ", vehicle=" + vehicle +
-                ", owner=" + owner +
-                '}';
     }
 
 }

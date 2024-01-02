@@ -14,6 +14,18 @@ public class BodyType {
     @NotBlank(message = "Body type name is mandatory")
     private String bodyTypeName;
 
-    // standard constructors / setters / getters / toString
+    public BodyType() {
+    }
 
+    public BodyType(String bodyTypeName) {
+        this.bodyTypeName = bodyTypeName;
+    }
+
+    public String getBodyTypeName() {
+        return bodyTypeName;
+    }
+
+    public void setBodyTypeName(String bodyTypeName) {
+        this.bodyTypeName = bodyTypeName;
+    }
 }

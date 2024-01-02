@@ -28,7 +28,63 @@ public class VehicleOwner {
 
     private LocalDate passportIssueDate;
 
-    // standard constructors / setters / getters / toString
+    public VehicleOwner() {
+    }
 
+    public VehicleOwner(String name, String patronym, LocalDate birthDate, String passportSeries, String passportNumber, LocalDate passportIssueDate) {
+        this.name = name;
+        this.patronym = patronym;
+        this.birthDate = birthDate;
+        this.passportSeries = passportSeries;
+        this.passportNumber = passportNumber;
+        this.passportIssueDate = passportIssueDate;
+    }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getPatronym() {
+        return patronym;
+    }
+
+    public void setPatronym(String patronym) {
+        this.patronym = patronym;
+    }
+
+    public LocalDate getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(LocalDate birthDate) {
+        this.birthDate = birthDate;
+    }
+
+    public String getPassportSeries() {
+        return passportSeries;
+    }
+
+    public void setPassportSeries(String passportSeries) {
+        this.passportSeries = passportSeries;
+    }
+
+    public String getPassportNumber() {
+        return passportNumber;
+    }
+
+    public void setPassportNumber(String passportNumber) {
+        this.passportNumber = passportNumber;
+    }
+
+    public LocalDate getPassportIssueDate() {
+        return passportIssueDate;
+    }
+
+    public void setPassportIssueDate(LocalDate passportIssueDate) {
+        this.passportIssueDate = passportIssueDate;
+    }
 }

@@ -24,12 +24,59 @@ public class DrivingLicense {
 
     private LocalDate issueDate;
 
+    public DrivingLicense() {
+    }
+
+    public DrivingLicense(String series, Long number, String issuedBy, LocalDate issueDate, VehicleOwner vehicleOwner) {
+        this.series = series;
+        this.number = number;
+        this.issuedBy = issuedBy;
+        this.issueDate = issueDate;
+        this.vehicleOwner = vehicleOwner;
+    }
+
     @ManyToOne
     @JoinColumn(name = "vehicleOwnerId")
     private VehicleOwner vehicleOwner;
 
-    // standard constructors / setters / getters / toString
+    public String getSeries() {
+        return series;
+    }
 
+    public void setSeries(String series) {
+        this.series = series;
+    }
 
+    public Long getNumber() {
+        return number;
+    }
+
+    public void setNumber(Long number) {
+        this.number = number;
+    }
+
+    public String getIssuedBy() {
+        return issuedBy;
+    }
+
+    public void setIssuedBy(String issuedBy) {
+        this.issuedBy = issuedBy;
+    }
+
+    public LocalDate getIssueDate() {
+        return issueDate;
+    }
+
+    public void setIssueDate(LocalDate issueDate) {
+        this.issueDate = issueDate;
+    }
+
+    public VehicleOwner getVehicleOwner() {
+        return vehicleOwner;
+    }
+
+    public void setVehicleOwner(VehicleOwner vehicleOwner) {
+        this.vehicleOwner = vehicleOwner;
+    }
 
 }

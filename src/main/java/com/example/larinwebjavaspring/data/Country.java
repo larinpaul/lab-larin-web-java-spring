@@ -16,6 +16,27 @@ public class Country {
 
     private String countryAbbreviation;
 
-    // standard constructors / setters / getters / toString
+    public Country() {
+    }
 
+    public Country(String countryName, String countryAbbreviation) {
+        this.countryName = countryName;
+        this.countryAbbreviation = countryAbbreviation;
+    }
+
+    public String getCountryName() {
+        return countryName;
+    }
+
+    public void setCountryName(String countryName) {
+        this.countryName = countryName;
+    }
+
+    public String getCountryAbbreviation() {
+        return countryAbbreviation;
+    }
+
+    public void setCountryAbbreviation(String countryAbbreviation) {
+        this.countryAbbreviation = countryAbbreviation;
+    }
 }

@@ -20,7 +20,36 @@ public class VehicleBrand {
     @JoinColumn(name = "countryId")
     private Country country;
 
-    // standard constructors / setters / getters / toString
+    public VehicleBrand() {
+    }
 
+    public VehicleBrand(String brandName, String shortBrandName, Country country) {
+        this.brandName = brandName;
+        this.shortBrandName = shortBrandName;
+        this.country = country;
+    }
 
+    public String getBrandName() {
+        return brandName;
+    }
+
+    public void setBrandName(String brandName) {
+        this.brandName = brandName;
+    }
+
+    public String getShortBrandName() {
+        return shortBrandName;
+    }
+
+    public void setShortBrandName(String shortBrandName) {
+        this.shortBrandName = shortBrandName;
+    }
+
+    public Country getCountry() {
+        return country;
+    }
+
+    public void setCountry(Country country) {
+        this.country = country;
+    }
 }

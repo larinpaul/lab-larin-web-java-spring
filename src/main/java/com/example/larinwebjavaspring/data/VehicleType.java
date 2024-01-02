@@ -14,6 +14,19 @@ public class VehicleType {
     @NotBlank(message = "Vehicle name is mandatory")
     private String vehicleName;
 
-    // Standard constructors, setters, getters, toString
+    public VehicleType() {
+    }
+
+    public VehicleType(String vehicleName) {
+        this.vehicleName = vehicleName;
+    }
+
+    public String getVehicleName() {
+        return vehicleName;
+    }
+
+    public void setVehicleName(String vehicleName) {
+        this.vehicleName = vehicleName;
+    }
 
 }

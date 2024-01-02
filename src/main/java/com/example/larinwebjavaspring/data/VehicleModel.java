@@ -18,6 +18,27 @@ public class VehicleModel {
     @JoinColumn(name = "vehicleBrandId")
     private VehicleBrand vehicleBrand;
 
-    // standard constructors / setters / getters / toString
+    public VehicleModel() {
+    }
 
+    public VehicleModel(String vehicleName, VehicleBrand vehicleBrand) {
+        this.vehicleName = vehicleName;
+        this.vehicleBrand = vehicleBrand;
+    }
+
+    public String getVehicleName() {
+        return vehicleName;
+    }
+
+    public void setVehicleName(String vehicleName) {
+        this.vehicleName = vehicleName;
+    }
+
+    public VehicleBrand getVehicleBrand() {
+        return vehicleBrand;
+    }
+
+    public void setVehicleBrand(VehicleBrand vehicleBrand) {
+        this.vehicleBrand = vehicleBrand;
+    }
 }

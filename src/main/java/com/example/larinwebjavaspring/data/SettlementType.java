@@ -14,6 +14,18 @@ public class SettlementType {
     @NotBlank(message = "Settlement type name is mandatory")
     private String settlementTypeName;
 
-    // standard constructors / setters / getters / toString
+    public SettlementType() {
+    }
 
+    public SettlementType(String settlementTypeName) {
+        this.settlementTypeName = settlementTypeName;
+    }
+
+    public String getSettlementTypeName() {
+        return settlementTypeName;
+    }
+
+    public void setSettlementTypeName(String settlementTypeName) {
+        this.settlementTypeName = settlementTypeName;
+    }
 }

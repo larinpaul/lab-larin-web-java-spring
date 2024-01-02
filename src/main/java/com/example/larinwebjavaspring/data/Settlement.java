@@ -18,6 +18,27 @@ public class Settlement {
     @JoinColumn(name = "settlementTypeId")
     private SettlementType settlementType;
 
-    // standard constructors / setters / getters / toString
+    public Settlement() {
+    }
 
+    public Settlement(String setllementName, SettlementType settlementType) {
+        this.setllementName = setllementName;
+        this.settlementType = settlementType;
+    }
+
+    public String getSetllementName() {
+        return setllementName;
+    }
+
+    public void setSetllementName(String setllementName) {
+        this.setllementName = setllementName;
+    }
+
+    public SettlementType getSettlementType() {
+        return settlementType;
+    }
+
+    public void setSettlementType(SettlementType settlementType) {
+        this.settlementType = settlementType;
+    }
 }
